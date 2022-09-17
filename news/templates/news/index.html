@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }} :: {{ block.super }}
+{% endblock %}
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+
+{% block content %}
+{% for item in news %}
+<div class="card mb-2">
+    <div class="card-header">
+        Категория: <a href="{% url 'category' item.category.pk %}">{{ item.category }}</a>
+    </div>
+    <div class="card-body">
+        <div class="media">
+            {% if item.photo %}
+            <img src="{{ item.photo.url }}" alt="" width="500" class="mr-3">
+            {% else %}
+            <!-- <img src="https://zeiss-sunlens.com/wp-content/uploads/2021/08/s_blog1-1024x683.jpg" alt="" width="500"> -->
+            <img src="https://img.freepik.com/premium-vector/modern-minimal-not-found-error-icon-oops-page-not-found-404-error-the-page-not-found-with-concept_599740-716.jpg"
+                alt="" width="500">
+            {% endif %}
+            <h5 class="card-title mt-2"> {{ item.title }} </h5>
+            <p class="card-text"> {{ item.content|safe|linebreaks|truncatewords:150 }} </p>
+            <a href="#" class="btn btn-primary">Read more...</a>
+        </div>
+    </div>
+    <div class="card-footer text-muted">
+        {{ item.created_at|timesince }}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
